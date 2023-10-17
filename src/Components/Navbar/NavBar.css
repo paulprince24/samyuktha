@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, sans-serif;
+  background-color: #0b061f;
+  /* position: fixed; */
+}
+.logo_main {
+  width: 100px;
+}
+
+.menu {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  align-items: center;
+  z-index: 1;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0px auto;
+}
+
+@media (max-width: 650px) {
+  .menu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+    background-color: black !important;
+  }
+  .css-10hburv-MuiTypography-root {
+    font-family: "Creepster" !important;
+    letter-spacing: 3px !important;
+    padding: 10px;
+    width: 120px;
+  }
+
+  .css-10hburv-MuiTypography-root:hover {
+    background-color: orange !important;
+    border-radius: 50px;
+  }
+}
+
+.menu .item {
+  padding: 18px 28px;
+  cursor: pointer;
+  transition: color 0.3s ease-out;
+  text-decoration: none;
+  color: #eaeaea;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+.menu .item.active {
+  color: #fff;
+}
+
+.menu .indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 50px;
+}

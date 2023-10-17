@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
+
+body {
+  background-color: black;
+  overflow-x: hidden;
+}
+.main_container {
+  scroll-behavior: auto;
+}
+.about_head {
+  z-index: 200;
+  margin-bottom: 2em;
+}
+p {
+  margin-top: 2em;
+}
+.about {
+  margin-top: 20em;
+  padding: 5%;
+  background-color: black;
+}
+.thum_image {
+  max-height: 500px;
+}
+.details_head {
+  font-family: "Creepster";
+}
+ul {
+  list-style-type: circle;
+  color: white; /* Change the color to white */
+}
+
+.rule_card {
+  box-shadow: 1px 1px 25px #ffad090c;
+  background-color: black;
+}
+.contact_form {
+  box-shadow: 1px 1px 25px rgba(184, 184, 184, 0.022);
+  background-color: black;
+  max-width: 700px;
+}
+.contact_card {
+  box-shadow: 1px 1px 25px #ffad091f;
+  background-color: black;
+  max-width: 700px;
+  min-width: 290px;
+}
+.rules_main{
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+@media (max-width: 600px){
+  .rules_main{
+    display: block;
+  }
+}
+
+
+.icon_detail {
+  color: #ffad09;
+  font-size: 60px;
+}
+.prize_text {
+  font-size: 17px;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+.saintgits{
+    width: 100px;
+}
+.cont_footer{
+    font-family: 'Creepster';
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+}

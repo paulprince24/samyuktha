@@ -1,0 +1,7 @@
+.spiderweb {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: auto !important;
+  max-width: 30px !important;
+}

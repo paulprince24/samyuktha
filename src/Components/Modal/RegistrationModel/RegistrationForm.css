@@ -1,0 +1,131 @@
+.custom_button {
+  background-color: #ffac09;
+  font-weight: 500;
+}
+
+.custom_button:hover {
+  background-color: #ffad09a3 !important;
+}
+
+.modal_ctn {
+  background-color: black !important;
+
+  border-radius: 10px;
+}
+
+.ant-modal-content,
+.ant-modal-title {
+  background: radial-gradient(
+    ellipse at center,
+    #160909 0%,
+    #05060f 45%,
+    #0d0b30 100%
+  );
+  color: orange !important;
+}
+
+.ant-modal-title {
+  display: none;
+}
+
+.ant-modal-close {
+  color: white !important;
+}
+
+.custom-ok-button {
+  background-color: orange;
+  border: none;
+  color: #ffffff;
+  display: none;
+
+  border-radius: 4px;
+}
+
+.custom-ok-button:hover {
+  background-color: rgba(255, 166, 0, 0.647) !important;
+}
+
+.custom-cancel-button {
+  display: none;
+  background-color: grey;
+  border: none;
+  color: #ffffff;
+
+  border-radius: 4px;
+}
+
+.custom-cancel-button:hover {
+  background-color: rgba(117, 117, 117, 0.647) !important;
+  color: white !important;
+}
+
+.register-fields::placeholder {
+  color: grey;
+}
+
+.register-fields {
+  background: rgb(10, 7, 30);
+  border: 2px solid rgba(128, 128, 128, 0.479);
+  color: orange;
+}
+
+.register-fields:hover {
+  border-color: orange;
+  box-shadow: 0 0 5px #ff5733;
+}
+
+.register-fields:focus {
+  border-color: orange;
+  box-shadow: 0 0 5px #ff5733;
+}
+
+.minus {
+  color: white;
+}
+
+.add-btn {
+  background-color: rgb(10, 7, 30);
+  color: white;
+}
+
+.add-btn:hover {
+  border-color: orange !important;
+  color: orange !important;
+}
+
+.ant-input-disabled {
+  color: orange !important;
+  background-color: rgb(10, 7, 30) !important;
+  border-color: grey !important;
+}
+
+.reg-btn {
+  background-color: orange;
+  position: relative;
+  top: 20px;
+  font-weight: 500;
+}
+
+:where(.css-dev-only-do-not-override-amq5gd).ant-modal .ant-modal-content {
+  background-color: transparent;
+}
+
+:where(.css-dev-only-do-not-override-amq5gd).ant-btn-primary:not(:disabled):not(
+    .ant-btn-disabled
+  ):hover {
+  background-color: orange !important;
+}
+
+.pumpkin-reg {
+  width: auto;
+  height: 50px;
+  position: absolute;
+  top: -30px;
+  left: -20px;
+}
+
+.reg-btn:active,
+.reg-btn:focus {
+  background-color: orange !important;
+  color: white !important;
+}
