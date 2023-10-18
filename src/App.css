@@ -45,18 +45,17 @@ ul {
   max-width: 700px;
   min-width: 290px;
 }
-.rules_main{
+.rules_main {
   display: flex;
   justify-content: center;
   overflow-x: hidden;
 }
 
-@media (max-width: 600px){
-  .rules_main{
+@media (max-width: 600px) {
+  .rules_main {
     display: block;
   }
 }
-
 
 .icon_detail {
   color: #ffad09;
@@ -68,4 +67,9 @@ ul {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
 }

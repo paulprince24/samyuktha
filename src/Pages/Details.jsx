@@ -24,11 +24,11 @@ import {
   browserLocalPersistence,
 } from "firebase/auth";
 import RegistrationForm from "../Components/Modal/RegistrationModel/RegistrationModel";
-import AOS from 'aos'
-import 'aos/dist/aos.css'
-
-
-
+import AOS from "aos";
+import "aos/dist/aos.css";
+import axios from "axios";
+import { Skeleton, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 export default function Details() {
   const { name } = useParams();
@@ -37,8 +37,9 @@ export default function Details() {
   const isSmallScreen = useMediaQuery("(max-width: 784px)");
   const [drawer, setDrawer] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const { db } = useFirebase();
+  // const { db } = useFirebase();
   const [events, setEvents] = useState([]);
 
   const [user, setUser] = useState("");
@@ -47,43 +48,22 @@ export default function Details() {
     AOS.init();
     const fetchEvents = async () => {
       try {
-        const eventsCollectionRef = collection(db, "events");
-        const q = query(eventsCollectionRef, where("eventName", "==", name));
-
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          const eventsData = [];
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            eventsData.push(data);
+        axios
+          .get(
+            "https://prismatic-licorice-09766e.netlify.app/v1/api/events/5f32aa49-a0bb-4ce7-af96-2db5266f4753"
+          )
+          .then((response) => {
+            console.log(response.data);
+            setEvents(response.data);
+            setLoading(true);
           });
-          setEvents(eventsData);
-
-          const uid = localStorage.getItem("uid");
-
-          if (eventsData.length > 0 && eventsData[0].participants) {
-            if (uid in eventsData[0].participants) {
-              setIsRegistered(true);
-            
-            } else {
-              setIsRegistered(false);
-      
-            }
-          } else {
-            setIsRegistered(false);
-    
-          }
-        });
-
-        return () => {
-          // Unsubscribe from the listener when the component unmounts
-          unsubscribe();
-        };
       } catch (error) {
         console.error("Error fetching events:", error);
       }
     };
     fetchEvents();
-  }, [db, name]);
+  }, []);
+
   const openDrawer = () => {
     setDrawer(true);
   };
@@ -98,7 +78,7 @@ export default function Details() {
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
 
-            console.log("j_key", credential.idToken)
+            console.log("j_key", credential.idToken);
             const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
@@ -108,7 +88,6 @@ export default function Details() {
             localStorage.setItem("userName", user.displayName);
             localStorage.setItem("uid", user.uid);
 
-      
             // IdP data available using getAdditionalUserInfo(result)
             // ...
           })
@@ -130,167 +109,195 @@ export default function Details() {
       });
   };
 
+  console.log(events > 0 ? events : null);
+
   return (
     <div>
       <section>
         <>
-          {isSmallScreen ? (
-            <div onClick={openDrawer} style={{ cursor: "pointer" }}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                style={{ width: "2.0em" }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
-            </div>
-          ) : (
-            <NavBar />
-          )}
+          {isSmallScreen ? <MobileNav /> : <NavBar />}
           {drawer && (
             <MobileNav open={drawer} anchor="left" setDrawer={setDrawer} />
           )}
         </>
       </section>
-      {events.map((event, index) => (
-        <div>
-          <section
-            key={index}
-            className="container p-5 d-sm-flex justify-space-around"
-          >
-            <img src={event.cover} className="img-thumbnail thum_image m-3" data-aos='zoom-in' />
-            <div className="container p-2 pt-4" data-aos='fade-left'>
-              <h1 className="text-warning details_head">{event.eventName}</h1>
-              <button className="btn btn-outline-warning btn-sm btn-rounded text-warning m-2">
-                {event.eventCategory}
-              </button>
-              <button className="btn btn-outline-warning btn-sm btn-rounded text-warning m-2">
-                {event.eventType}
-              </button>
-              <br />
-              <p className="text-light">{event.eventDesc}</p>
-              <br />
 
-              <p className="text-light"></p>
-              <h3 className="m-2"></h3>
+      {loading ? (
+        events.events?.map((event, index) => (
+          <div>
+            <section
+              key={index}
+              className="container p-5 d-sm-flex justify-space-around"
+            >
+              <img
+                src={event.cover}
+                className="img-thumbnail thum_image m-3"
+                data-aos="zoom-in"
+              />
+              <div className="container p-2 pt-4" data-aos="fade-left">
+                <h1 className="text-warning details_head">{event.eventname}</h1>
+                <button className="btn btn-outline-warning btn-sm btn-rounded text-warning m-2">
+                  {event.eventcategory}
+                </button>
+                <button className="btn btn-outline-warning btn-sm btn-rounded text-warning m-2">
+                  {event.eventtype}
+                </button>
+                <br />
+                <p className="text-light">{event.eventdescription}</p>
+                <br />
 
-              <section>
-                {localStorage.getItem("uid") === null ? (
-                  <button
-                    className="btn btn-warning mr-3"
-                    onClick={() => {
-                      handleSignin();
-                    }}
-                  >
-                    REGISTER
-                  </button>
-                ) : isRegistered ? (
-                  <>
-                    <p
-                      className="registered text-warning"
-                      style={{ fontFamily: "Creepster", letterSpacing: "1px" }}
+                <p className="text-warning">
+                  Registration Fee: {event.regfee}/-
+                </p>
+                <h3 className="m-2"></h3>
+
+                <section>
+                  {localStorage.getItem("uid") === null ? (
+                    <button
+                      className="btn btn-warning mr-3"
+                      onClick={() => {
+                        handleSignin();
+                      }}
                     >
-                      You have successfully registered for the event
-                    </p>
-                    <p
-                      className="text-warning"
-                      style={{ fontFamily: "Creepster", letterSpacing: "1px" }}
-                    >
-                      {" "}
-                      Get ready for the spooky day
-                    </p>
-                  </>
-                ) : (
-                  <RegistrationForm
-                    email={localStorage.getItem("userEmail")}
-                    eventName={name}
-                    eventId={id}
-                    strength={event.teamStrength}
-                  />
-                )}
+                      REGISTER
+                    </button>
+                  ) : isRegistered ? (
+                    <>
+                      <p
+                        className="registered text-warning"
+                        style={{
+                          fontFamily: "Creepster",
+                          letterSpacing: "1px",
+                        }}
+                      >
+                        You have successfully registered for the event
+                      </p>
+                      <p
+                        className="text-warning"
+                        style={{
+                          fontFamily: "Creepster",
+                          letterSpacing: "1px",
+                        }}
+                      >
+                        {" "}
+                        Get ready for the spooky day
+                      </p>
+                    </>
+                  ) : (
+                    <RegistrationForm
+                      email={localStorage.getItem("userEmail")}
+                      eventName={name}
+                      eventId={id}
+                      strength={event.teamstrength}
+                    />
+                  )}
 
-                {/* <p className="text-warning mt-2">Registration starts soon</p> */}
+                  {/* <p className="text-warning mt-2">Registration starts soon</p> */}
 
-                {/* {localStorage.getItem("userEmail") && (
+                  {/* {localStorage.getItem("userEmail") && (
                   <p>Logged in {localStorage.getItem("userEmail")}</p>
                 )} */}
-                <span> </span>
-              </section>
-            </div>
-            <br />
-            <br />
-          </section>
-          <div className="d-sm-flex justify-space-around rules_main">
-            <div className="rule_card rounded-9 m-3 p-3" data-aos= 'fade-right' data-aos-duration='1500'>
-              <center>
-                <h4 className="text-warning">Rules</h4>
-              </center>
-              <ul>
-                {event.ruleList &&
-                  event.ruleList.map((rule, index) => (
-                    <li className="" key={index}>
-                      - {rule}
-                    </li>
-                  ))}
-              </ul>
-            </div>
-            <div className="rounded-7 m-3 p-3 contact_card " data-aos= 'fade-down' data-aos-duration='1500'>
-              <center>
-                <CallIcon fontSize="1px" className="icon_detail" />
-              </center>
-              <div className="d-flex justify-content-around align-items-center p-3">
-                <div>
-                  <span className="text-light prize_text m-1">
-                    {event.studentIncharge1} :{" "}
-                  </span>
-                </div>
-                <span className="text-light prize_text">
-                  {event.studentIncharge1Mobile}
-                </span>{" "}
-                <br />
+                  <span> </span>
+                </section>
               </div>
-              <div className="d-flex justify-content-around align-items-center p-3">
-                <div>
+              <br />
+              <br />
+            </section>
+            <div className="d-sm-flex justify-space-around rules_main">
+              <div
+                className="rule_card rounded-9 m-3 p-3"
+                data-aos="fade-right"
+                data-aos-duration="1500"
+              >
+                <center>
+                  <h4 className="text-warning">Rules</h4>
+                </center>
+                <ul>
+                  {events.rules?.map((el, index) => {
+                    return <li>- {el.rules}</li>;
+                  })}
+                </ul>
+              </div>
+              <div
+                className="rounded-7 m-3 p-3 contact_card "
+                data-aos="fade-down"
+                data-aos-duration="1500"
+              >
+                <center>
+                  <CallIcon fontSize="1px" className="icon_detail" />
+                </center>
+                <div className="d-flex justify-content-around align-items-center p-3">
+                  <div>
+                    <span className="text-light prize_text m-1">
+                      {event.studentincharge1} :{" "}
+                    </span>
+                  </div>
                   <span className="text-light prize_text">
-                    {event.studentIncharge2} :{" "}
-                  </span>
+                    {event.studentincharge1mobile}
+                  </span>{" "}
+                  <br />
                 </div>
-                <span className="text-light prize_text">
-                  {event.studentIncharge2Mobile}
-                </span>{" "}
-                <br />
-              </div>
-              {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
-            </div>
-            <div className="rounded-7 m-3 p-3 contact_card" data-aos= 'fade-left' data-aos-duration='1500'>
-              <center>
-                <EmojiEventsIcon fontSize="3px" className="icon_detail" />
-              </center>
-              <div className="d-flex justify-content-around align-items-center p-2">
-                <div>
-                  <span className="text-light prize_text m-1">1st :</span>
+                <div className="d-flex justify-content-around align-items-center p-3">
+                  <div>
+                    <span className="text-light prize_text">
+                      {event.studentincharge2} :{" "}
+                    </span>
+                  </div>
+                  <span className="text-light prize_text">
+                    {event.studentincharge2mobile}
+                  </span>{" "}
+                  <br />
                 </div>
-                <span className="text-light prize_text">{event.firstPrize} /-</span> <br />
+                {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
               </div>
-              <div className="d-flex justify-content-around p-2">
-                <div>
-                  <span className="text-light prize_text m-1">2nd :</span>
+              <div
+                className="rounded-7 m-3 p-3 contact_card"
+                data-aos="fade-left"
+                data-aos-duration="1500"
+              >
+                <center>
+                  <EmojiEventsIcon fontSize="3px" className="icon_detail" />
+                </center>
+                <div className="d-flex justify-content-around align-items-center p-2">
+                  <div>
+                    <span className="text-light prize_text m-1">1st :</span>
+                  </div>
+                  <span className="text-light prize_text">
+                    {event.firstprize} /-
+                  </span>{" "}
+                  <br />
                 </div>
-                <span className="text-light prize_text">{event.secondPrize} /-</span> <br />
+                <div className="d-flex justify-content-around p-2">
+                  <div>
+                    <span className="text-light prize_text m-1">2nd :</span>
+                  </div>
+                  <span className="text-light prize_text">
+                    {event.secondprize} /-
+                  </span>{" "}
+                  <br />
+                </div>
+                {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
               </div>
-              {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
             </div>
           </div>
-        </div>
-      ))}
-      <br /><br />
+        ))
+      ) : (
+        <Spin
+          className="spinner"
+          indicator={
+            <LoadingOutlined
+              style={{
+                fontSize: 100,
+                color: "orange",
+              }}
+              spin
+            />
+          }
+        />
+      )}
+
+      <br />
+      <br />
 
       <Footer />
     </div>

@@ -10,6 +10,8 @@ import Event from "./Pages/Event";
 import Details from "./Pages/Details";
 import Contact from "./Pages/contact";
 import AboutUs from "./Pages/aboutUs";
+import Card from "./Components/Event/EventCard";
+import Error from "./Pages/Error";
 const App = () => {
   return (
     <>
@@ -20,7 +22,8 @@ const App = () => {
           <Route exact path="/events" element={<Event />} />
           <Route exact path="/admin" element={<AdminPage />} />
           <Route exact path="/details/:name/:id" element={<Details />} />
-          <Route exact path="/aboutUs" element={<AboutUs/>}/>
+          <Route exact path="/aboutUs" element={<AboutUs />} />
+          <Route exact path="/*" element={<Error />} />
         </Routes>
       </Router>
     </>
