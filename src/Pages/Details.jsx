@@ -5,15 +5,6 @@ import { useMediaQuery } from "@mui/material";
 import MobileNav from "../Components/Mobilenav/MobileNav";
 import "../App.css";
 import { useParams } from "react-router-dom";
-// import {
-//   collection,
-//   getDocs,
-//   query,
-//   setDoc,
-//   onSnapshot,
-//   where,
-// } from "firebase/firestore";
-// import { useFirebase } from "../Context/firebaseContext";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import CallIcon from "@mui/icons-material/Call";
 import {
@@ -27,27 +18,16 @@ import RegistrationForm from "../Components/Modal/RegistrationModel/Registration
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
-import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { Divider, List, Typography } from "antd";
-
-const data = [
-  "Racing car sprays burning fuel into crowd.",
-  "Japanese princess to wed commoner.",
-  "Australian walks 100km after outback crash.",
-  "Man charged over missing wedding girl.",
-  "Los Angeles battles huge wildfires.",
-];
+import { Spin, List } from "antd";
 
 export default function Details() {
   const { name } = useParams();
   const { id } = useParams();
 
   const isSmallScreen = useMediaQuery("(max-width: 784px)");
-  const [drawer, setDrawer] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [rule, setRule] = useState([]);
 
   // const { db } = useFirebase();
   const [events, setEvents] = useState([]);
@@ -72,10 +52,6 @@ export default function Details() {
     };
     fetchEvents();
   }, []);
-
-  // const openDrawer = () => {
-  //   setDrawer(true);
-  // };
 
   const handleSignin = () => {
     const auth = getAuth();
@@ -118,11 +94,6 @@ export default function Details() {
       });
   };
 
-  useEffect(() => {
-    const extractedRules = events.rules?.map((obj) => obj.rules).flat();
-    setRule(extractedRules);
-  }, []);
-
   return (
     <div>
       <section>
@@ -140,6 +111,7 @@ export default function Details() {
                 src={event.cover}
                 className="img-thumbnail thum_image m-3"
                 data-aos="zoom-in"
+                alt="thumbnail"
               />
               <div className="container p-2 pt-4" data-aos="fade-left">
                 <h1 className="text-warning details_head">{event.eventname}</h1>
@@ -156,7 +128,6 @@ export default function Details() {
                 <p className="text-warning">
                   Registration Fee: {event.regfee}/-
                 </p>
-                <h3 className="m-2"></h3>
 
                 <section>
                   {localStorage.getItem("uid") === null ? (
@@ -199,11 +170,6 @@ export default function Details() {
                     />
                   )}
 
-                  {/* <p className="text-warning mt-2">Registration starts soon</p> */}
-
-                  {/* {localStorage.getItem("userEmail") && (
-                  <p>Logged in {localStorage.getItem("userEmail")}</p>
-                )} */}
                   <span> </span>
                 </section>
               </div>
@@ -264,7 +230,6 @@ export default function Details() {
                     </span>{" "}
                     <br />
                   </div>
-                  {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
                 </div>
                 <div
                   className="rounded-7 m-3 p-3 contact_card "
@@ -295,7 +260,6 @@ export default function Details() {
                       <br />
                     </div>
                   </div>
-                  {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
                 </div>
               </div>
             </div>
