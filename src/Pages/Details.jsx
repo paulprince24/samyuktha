@@ -281,7 +281,7 @@ export default function Details() {
               </div>
               <div className="d-flex justify-content-around p-2">
                 <div>
-                  <span className="text-light prize_text m-1">2st :</span>
+                  <span className="text-light prize_text m-1">2nd :</span>
                 </div>
                 <span className="text-light prize_text">{event.secondPrize} /-</span> <br />
               </div>
