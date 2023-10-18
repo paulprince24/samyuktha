@@ -29,6 +29,15 @@ import "aos/dist/aos.css";
 import axios from "axios";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import { Divider, List, Typography } from "antd";
+
+const data = [
+  "Racing car sprays burning fuel into crowd.",
+  "Japanese princess to wed commoner.",
+  "Australian walks 100km after outback crash.",
+  "Man charged over missing wedding girl.",
+  "Los Angeles battles huge wildfires.",
+];
 
 export default function Details() {
   const { name } = useParams();
@@ -38,6 +47,7 @@ export default function Details() {
   const [drawer, setDrawer] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [rule, setRule] = useState([]);
 
   // const { db } = useFirebase();
   const [events, setEvents] = useState([]);
@@ -107,6 +117,11 @@ export default function Details() {
         const errorMessage = error.message;
       });
   };
+
+  useEffect(() => {
+    const extractedRules = events.rules?.map((obj) => obj.rules).flat();
+    setRule(extractedRules);
+  }, []);
 
   return (
     <div>
@@ -195,80 +210,93 @@ export default function Details() {
               <br />
               <br />
             </section>
-            <div className="d-sm-flex justify-space-around rules_main">
+            <div className="d-sm-flex justify-space-around rules_main ">
               <div
-                className="rule_card rounded-9 m-3 p-3"
+                className="rule_card rounded-9 m-3 p-3 "
                 data-aos="fade-right"
                 data-aos-duration="1500"
               >
                 <center>
                   <h4 className="text-warning">Rules</h4>
                 </center>
-                <ul>
+                <List
+                  size="small"
+                  dataSource={events.rules?.map((obj) => obj.rules).flat()}
+                  style={{ color: "white" }}
+                  renderItem={(item) => (
+                    <List.Item style={{ color: "white" }}>- {item}</List.Item>
+                  )}
+                />
+                {/* <ul>
                   {events.rules?.map((el, index) => {
                     return <li key={index}>- {el.rules}</li>;
                   })}
-                </ul>
+                </ul> */}
               </div>
-              <div
-                className="rounded-7 m-3 p-3 contact_card "
-                data-aos="fade-down"
-                data-aos-duration="1500"
-              >
-                <center>
-                  <CallIcon fontSize="1px" className="icon_detail" />
-                </center>
-                <div className="d-flex justify-content-around align-items-center p-3">
-                  <div>
-                    <span className="text-light prize_text m-1">
-                      {event.studentincharge1} :{" "}
-                    </span>
-                  </div>
-                  <span className="text-light prize_text">
-                    {event.studentincharge1mobile}
-                  </span>{" "}
-                  <br />
-                </div>
-                <div className="d-flex justify-content-around align-items-center p-3">
-                  <div>
+              <div>
+                <div
+                  className="rounded-7 m-3 p-3 contact_card "
+                  data-aos="fade-down"
+                  data-aos-duration="1500"
+                >
+                  <center>
+                    <CallIcon fontSize="1px" className="icon_detail" />
+                  </center>
+                  <div className="d-flex justify-content-around align-items-center p-3">
+                    <div>
+                      <span className="text-light prize_text m-1">
+                        {event.studentincharge1} :{" "}
+                      </span>
+                    </div>
                     <span className="text-light prize_text">
-                      {event.studentincharge2} :{" "}
-                    </span>
+                      {event.studentincharge1mobile}
+                    </span>{" "}
+                    <br />
                   </div>
-                  <span className="text-light prize_text">
-                    {event.studentincharge2mobile}
-                  </span>{" "}
-                  <br />
-                </div>
-                {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
-              </div>
-              <div
-                className="rounded-7 m-3 p-3 contact_card"
-                data-aos="fade-left"
-                data-aos-duration="1500"
-              >
-                <center>
-                  <EmojiEventsIcon fontSize="3px" className="icon_detail" />
-                </center>
-                <div className="d-flex justify-content-around align-items-center p-2">
-                  <div>
-                    <span className="text-light prize_text m-1">1st :</span>
+                  <div className="d-flex justify-content-around align-items-center p-3">
+                    <div>
+                      <span className="text-light prize_text">
+                        {event.studentincharge2} :{" "}
+                      </span>
+                    </div>
+                    <span className="text-light prize_text">
+                      {event.studentincharge2mobile}
+                    </span>{" "}
+                    <br />
                   </div>
-                  <span className="text-light prize_text">
-                    {event.firstprize} /-
-                  </span>{" "}
-                  <br />
+                  {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
                 </div>
-                <div className="d-flex justify-content-around p-2">
-                  <div>
-                    <span className="text-light prize_text m-1">2nd :</span>
+                <div
+                  className="rounded-7 m-3 p-3 contact_card "
+                  data-aos="fade-left"
+                  data-aos-duration="1500"
+                  style={{ height: "250px" }}
+                >
+                  <center>
+                    <EmojiEventsIcon fontSize="3px" className="icon_detail" />
+                  </center>
+                  <div className="d-flex px-4 align-items-center h-75 justify-content-around">
+                    <div className="d-flex flex-column gap-3">
+                      <div>
+                        <span className="text-light prize_text m-1">1st :</span>
+                      </div>
+                      <div>
+                        <span className="text-light prize_text m-1">2nd :</span>
+                      </div>
+                      <br />
+                    </div>
+                    <div className="d-flex flex-column gap-3">
+                      <span className="text-light prize_text">
+                        {event.firstprize} /-
+                      </span>{" "}
+                      <span className="text-light prize_text">
+                        {event.secondprize} /-
+                      </span>{" "}
+                      <br />
+                    </div>
                   </div>
-                  <span className="text-light prize_text">
-                    {event.secondprize} /-
-                  </span>{" "}
-                  <br />
+                  {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
                 </div>
-                {/* <span  className="text-light m-5">{event.studentIncharge2} : </span><span>{event.studentIncharge2Mobile}</span> */}
               </div>
             </div>
           </div>

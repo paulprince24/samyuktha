@@ -49,11 +49,13 @@ ul {
   display: flex;
   justify-content: center;
   overflow-x: hidden;
+  margin: 0 150px 0;
 }
 
 @media (max-width: 600px) {
   .rules_main {
     display: block;
+    margin: 0;
   }
 }
 
