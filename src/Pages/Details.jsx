@@ -53,7 +53,6 @@ export default function Details() {
             "https://prismatic-licorice-09766e.netlify.app/v1/api/events/5f32aa49-a0bb-4ce7-af96-2db5266f4753"
           )
           .then((response) => {
-            console.log(response.data);
             setEvents(response.data);
             setLoading(true);
           });
@@ -108,8 +107,6 @@ export default function Details() {
         const errorMessage = error.message;
       });
   };
-
-  console.log(events > 0 ? events : null);
 
   return (
     <div>
@@ -209,7 +206,7 @@ export default function Details() {
                 </center>
                 <ul>
                   {events.rules?.map((el, index) => {
-                    return <li>- {el.rules}</li>;
+                    return <li key={index}>- {el.rules}</li>;
                   })}
                 </ul>
               </div>
