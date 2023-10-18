@@ -21,28 +21,28 @@ const Slider = () => {
         "url(https://cdn.discordapp.com/attachments/1164078126838595616/1164078338181185627/treasure_hunt_1.jpg?ex=6541e76f&is=652f726f&hm=7c83bd45eae7ba52f104d6daf0a8687d8f42441365b869330d3a0362b28fee39&)",
       title: "Tresure Hunt",
       description:
-        "Dota 2 is a multiplayer online battle arena by Valve. The game is a sequel to Defense of the Ancients, which was a community-created mod for Blizzard Entertainment's Warcraft III.",
+        "Prepare to put your problem-solving skills to the test as you follow cryptic clues, solve riddles, and uncover hidden treasures",
     },
     {
       backgroundImage:
-        "url(https://firebasestorage.googleapis.com/v0/b/samyuktha70-42ee8.appspot.com/o/sample%2Ffootball.jpg?alt=media&token=5cfafcee-3cfa-4a5a-8a61-1bdcb55ddb31&_gl=1*1oa6lyz*_ga*NjI4OTk5NzMuMTY5NzQ3NDgzNQ..*_ga_CW55HF8NVT*MTY5NzUxODUwMC4zLjEuMTY5NzUxODUzNi4yNC4wLjAg)",
+        "url(https://media.discordapp.net/attachments/1164078126838595616/1164078335496826971/football_1_1.jpg?ex=6541e76e&is=652f726e&hm=d326a593b32db52373704d9474fcb34f3d0e8313d6f5b7744f83045875c9f8fe&=&width=530&height=662)",
       title: "Football",
       description:
-        "Dota 2 is a multiplayer online battle arena by Valve. The game is a sequel to Defense of the Ancients, which was a community-created mod for Blizzard Entertainment's Warcraft III.",
+        "The cheers of the crowd reverberate through the campus, creating an atmosphere of exhilaration and camaraderie",
     },
     {
       backgroundImage:
-        "url(https://firebasestorage.googleapis.com/v0/b/samyuktha70-42ee8.appspot.com/o/sample%2Fideathon.jpg?alt=media&token=d0fe0c44-487a-4fe9-b1f1-9e60f36490ac&_gl=1*17fwv9u*_ga*NjI4OTk5NzMuMTY5NzQ3NDgzNQ..*_ga_CW55HF8NVT*MTY5NzUxODUwMC4zLjEuMTY5NzUxODU0My4xNy4wLjAg)",
+        "url(https://cdn.discordapp.com/attachments/1164078126838595616/1164078821046243419/ideathon_1_1.jpg?ex=6541e7e2&is=652f72e2&hm=da2d712aa0ff21e96bb4946af933d8b8b48b31921b367cdb5d484b9f63d11a6c&)",
       title: "Ideathon",
       description:
-        "Dota 2 is a multiplayer online battle arena by Valve. The game is a sequel to Defense of the Ancients, which was a community-created mod for Blizzard Entertainment's Warcraft III.",
+        "Craft your innovative solutions and present them in a concise 10-slide PowerPoint presentation.",
     },
     {
       backgroundImage:
-        "url(https://firebasestorage.googleapis.com/v0/b/samyuktha70-42ee8.appspot.com/o/sample%2Fty00.jpg?alt=media&token=3810ba3f-64bf-4ac3-8bfd-f53532110d18&_gl=1*1bcbks1*_ga*NjI4OTk5NzMuMTY5NzQ3NDgzNQ..*_ga_CW55HF8NVT*MTY5NzUxODUwMC4zLjEuMTY5NzUxODU1Mi44LjAuMA..)",
+        "url(https://cdn.discordapp.com/attachments/1164078126838595616/1164082792011931750/ty00_1_1.jpg?ex=6541eb95&is=652f7695&hm=b73c75466e68a457681c511af737359bd226af70046de55cc1ae28f5ba543fbe&)",
       title: "Speed Typing",
       description:
-        "Dota 2 is a multiplayer online battle arena by Valve. The game is a sequel to Defense of the Ancients, which was a community-created mod for Blizzard Entertainment's Warcraft III.",
+        "Test your typing skills, reflexes, and accuracy as you race against the clock and fellow participants",
     },
   ];
 

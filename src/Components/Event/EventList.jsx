@@ -29,7 +29,6 @@ const CardList = () => {
         axios
           .get("https://prismatic-licorice-09766e.netlify.app/v1/api/events")
           .then((response) => {
-            console.log(response.data);
             setEvents(response.data);
             setLoading(true);
           });

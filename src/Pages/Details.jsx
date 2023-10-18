@@ -5,15 +5,15 @@ import { useMediaQuery } from "@mui/material";
 import MobileNav from "../Components/Mobilenav/MobileNav";
 import "../App.css";
 import { useParams } from "react-router-dom";
-import {
-  collection,
-  getDocs,
-  query,
-  setDoc,
-  onSnapshot,
-  where,
-} from "firebase/firestore";
-import { useFirebase } from "../Context/firebaseContext";
+// import {
+//   collection,
+//   getDocs,
+//   query,
+//   setDoc,
+//   onSnapshot,
+//   where,
+// } from "firebase/firestore";
+// import { useFirebase } from "../Context/firebaseContext";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import CallIcon from "@mui/icons-material/Call";
 import {
@@ -27,7 +27,7 @@ import RegistrationForm from "../Components/Modal/RegistrationModel/Registration
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
-import { Skeleton, Spin } from "antd";
+import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 export default function Details() {
@@ -64,9 +64,9 @@ export default function Details() {
     fetchEvents();
   }, []);
 
-  const openDrawer = () => {
-    setDrawer(true);
-  };
+  // const openDrawer = () => {
+  //   setDrawer(true);
+  // };
 
   const handleSignin = () => {
     const auth = getAuth();
@@ -114,12 +114,7 @@ export default function Details() {
   return (
     <div>
       <section>
-        <>
-          {isSmallScreen ? <MobileNav /> : <NavBar />}
-          {drawer && (
-            <MobileNav open={drawer} anchor="left" setDrawer={setDrawer} />
-          )}
-        </>
+        <>{isSmallScreen ? <MobileNav /> : <NavBar />}</>
       </section>
 
       {loading ? (
