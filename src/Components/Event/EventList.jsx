@@ -40,7 +40,6 @@ const CardList = () => {
     };
 
     fetchEvents();
-    console.log(events);
   }, [db]);
   return (
     <div className="container">

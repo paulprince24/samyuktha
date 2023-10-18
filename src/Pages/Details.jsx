@@ -37,7 +37,6 @@ export default function Details() {
   const isSmallScreen = useMediaQuery("(max-width: 784px)");
   const [drawer, setDrawer] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
-  console.log(name);
 
   const { db } = useFirebase();
   const [events, setEvents] = useState([]);
@@ -64,14 +63,14 @@ export default function Details() {
           if (eventsData.length > 0 && eventsData[0].participants) {
             if (uid in eventsData[0].participants) {
               setIsRegistered(true);
-              console.log("User is registered for the event");
+            
             } else {
               setIsRegistered(false);
-              console.log("User is not registered for the event");
+      
             }
           } else {
             setIsRegistered(false);
-            console.log("Event data is not available.");
+    
           }
         });
 
@@ -88,7 +87,6 @@ export default function Details() {
   const openDrawer = () => {
     setDrawer(true);
   };
-  console.log(events);
 
   const handleSignin = () => {
     const auth = getAuth();
@@ -108,7 +106,7 @@ export default function Details() {
             localStorage.setItem("userName", user.displayName);
             localStorage.setItem("uid", user.uid);
 
-            console.log(localStorage.getItem("user"));
+      
             // IdP data available using getAdditionalUserInfo(result)
             // ...
           })

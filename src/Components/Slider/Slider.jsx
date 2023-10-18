@@ -19,7 +19,7 @@ const Slider = () => {
 
   const items = [
     {
-      backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/samyuktha70-42ee8.appspot.com/o/sample%2FSINGING01.jpg?alt=media&token=3fe4401d-6722-4096-9155-a4db6aa74056&_gl=1*1rvbc2m*_ga*NjI4OTk5NzMuMTY5NzQ3NDgzNQ..*_ga_CW55HF8NVT*MTY5NzUxODUwMC4zLjEuMTY5NzUxODUyMi4zOC4wLjA)',
+      backgroundImage: 'url(https://drive.google.com/file/d/1ziPZabTzf_Puew4TN9dQv892qMChfOJg/view?usp=sharing)',
       title: 'Best Singer',
       description:
         'Dota 2 is a multiplayer online battle arena by Valve. The game is a sequel to Defense of the Ancients, which was a community-created mod for Blizzard Entertainment\'s Warcraft III.',
