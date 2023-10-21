@@ -28,6 +28,7 @@ export default function Details() {
   const isSmallScreen = useMediaQuery("(max-width: 784px)");
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
 
   // const { db } = useFirebase();
   const [events, setEvents] = useState([]);
@@ -40,7 +41,7 @@ export default function Details() {
       try {
         axios
           .get(
-            "https://prismatic-licorice-09766e.netlify.app/v1/api/events/5f32aa49-a0bb-4ce7-af96-2db5266f4753"
+            `https://prismatic-licorice-09766e.netlify.app/v1/api/events/${id}`
           )
           .then((response) => {
             setEvents(response.data);
@@ -64,11 +65,14 @@ export default function Details() {
             const credential = GoogleAuthProvider.credentialFromResult(result);
 
             console.log("j_key", credential.idToken);
-            const token = credential.accessToken;
+            // const token = credential.accessToken;
+
+            // localStorage.setItem("rftoken", token);
+            localStorage.setItem("zftoken", credential.idToken);
             // The signed-in user info.
             const user = result.user;
 
-            setUser(user);
+            setSignedIn(true);
             localStorage.setItem("userEmail", user.email);
             localStorage.setItem("userName", user.displayName);
             localStorage.setItem("uid", user.uid);
@@ -93,6 +97,37 @@ export default function Details() {
         const errorMessage = error.message;
       });
   };
+  const jwtToken = localStorage.getItem("zftoken");
+  const userId = localStorage.getItem("uid");
+
+  const config = {
+    headers: {
+      jwt: jwtToken,
+      "Content-Type": "application/json",
+
+      // Set the content type if needed
+    },
+  };
+
+  useEffect(() => {
+    const fetchRegisteredEvents = async () => {
+      if (signedIn) {
+        console.log("test");
+        await axios
+          .get(
+            "https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/user/check",
+            config
+          )
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    };
+    fetchRegisteredEvents();
+  }, [signedIn]);
 
   return (
     <div>

@@ -1,48 +1,101 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, Form, Input, Space, InputNumber } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import "./RegistrationForm.css";
-import { useForm } from "antd/es/form/Form";
-import { updateDoc, doc, getFirestore } from "firebase/firestore";
-import firebase from "../../../Firebase/Config";
+import axios from "axios";
 
 const RegistrationForm = ({ email, eventName, eventId, strength }) => {
-  const form = useForm();
+  const userId = localStorage.getItem("uid");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [addedFields, setAddedFields] = useState(1); // Initialize with 1 field
+  const [addedFields, setAddedFields] = useState(1);
+  const [regData, setRegData] = useState({ userid: userId, eventid: eventId });
 
-  const db = getFirestore(firebase);
+  useEffect(() => {}, [regData]); // Add regData as a dependency
 
   const showModal = () => {
     setIsModalOpen(true);
   };
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
+  const jwtToken = localStorage.getItem("zftoken");
+
+  const config = {
+    headers: {
+      jwt: jwtToken,
+      "Content-Type": "application/json", // Set the content type if needed
+    },
+  };
+
   const onFinish = async (values) => {
-    const documentRef = doc(db, "events", eventId);
-    const uid = localStorage.getItem("uid");
-
-    if (
-      (values.members && values.members.length === 0) ||
-      values.members === undefined
-    ) {
-      values.members = null;
+    let updatedRegData = {};
+    if (strength > 1) {
+      updatedRegData = {
+        ...regData,
+        participant1email: values.participantemail,
+        participant1name: values.participantname,
+        participant1phone: values.participantphone,
+        course: values.course,
+        college: values.college,
+        participant2name: values.members?.[0]?.participant1name || "",
+        participant2phone: values.members?.[0]?.participant1phone || "",
+        participant3name: values.members?.[1]?.participant2name || "",
+        participant3phone: values.members?.[1].participant2phone || "",
+        participant4name: values.members?.[2]?.participant3name || "",
+        participant4phone: values.members?.[2]?.participant3phone || "",
+        participant5name: values.members?.[3]?.participant4name || "",
+        participant5phone: values.members?.[3]?.participant4phone || "",
+      };
+      await axios
+        .post(
+          "https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/group",
+          updatedRegData,
+          config
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("successfull");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            console.log("already exist");
+          }
+        });
+    } else {
+      updatedRegData = {
+        ...regData,
+        participantemail: values.participantemail,
+        participantname: values.participantname,
+        participantphone: values.participantphone,
+        course: values.course,
+        college: values.college,
+      };
+      await axios
+        .post(
+          "https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/single",
+          updatedRegData,
+          config
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("successfull");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            console.log("already exist");
+          }
+        });
     }
-    const participantData = {
-      [uid]: values,
-    };
-
-    // Update the "participants" field in the Firestore document.
-    await updateDoc(documentRef, {
-      participants: participantData,
-    });
-    console.log("Received values of form:", values);
-    setIsModalOpen(false);
   };
 
   return (
@@ -71,30 +124,39 @@ const RegistrationForm = ({ email, eventName, eventId, strength }) => {
           <Form.Item name="event_name" initialValue={eventName}>
             <Input className="register-fields" disabled />
           </Form.Item>
-          <Form.Item name="logged_email" initialValue={email}>
+          <Form.Item name="participantemail" initialValue={email}>
             <Input className="register-fields" disabled />
           </Form.Item>
-          <Form.Item name="participant_one">
-            <Input className="register-fields" placeholder="Full Name" />
+          <Form.Item name="participantname">
+            <Input
+              className="register-fields"
+              placeholder="Full Name"
+              required
+            />
           </Form.Item>
-          <Form.Item name="phone">
+          <Form.Item name="participantphone">
             <Input
               className="register-fields"
               placeholder="Phone number"
               type="number"
+              required
             />
           </Form.Item>
           <Form.Item name="college">
-            <Input className="register-fields" placeholder="College Name" />
+            <Input
+              className="register-fields"
+              placeholder="College Name"
+              required
+            />
           </Form.Item>
           <Form.Item name="course">
-            <Input className="register-fields" placeholder="Course" />
+            <Input className="register-fields" placeholder="Course" required />
           </Form.Item>
 
           <Form.List name="members">
             {(fields, { add, remove }) => (
               <>
-                {fields.map(({ key, name, ...restField }) => (
+                {fields.map(({ key, name, ...restField }, index) => (
                   <Space
                     key={key}
                     style={{
@@ -105,7 +167,7 @@ const RegistrationForm = ({ email, eventName, eventId, strength }) => {
                   >
                     <Form.Item
                       {...restField}
-                      name={[name, "memberName"]}
+                      name={[name, "participant" + (index + 1) + "name"]}
                       rules={[
                         {
                           required: true,
@@ -120,7 +182,7 @@ const RegistrationForm = ({ email, eventName, eventId, strength }) => {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "member_phone"]}
+                      name={[name, "participant" + (index + 1) + "phone"]}
                       rules={[
                         {
                           required: true,
@@ -143,7 +205,7 @@ const RegistrationForm = ({ email, eventName, eventId, strength }) => {
                     />
                   </Space>
                 ))}
-                {addedFields < strength && ( // Allow adding fields up to 3
+                {addedFields < strength && (
                   <Form.Item>
                     <Button
                       className="add-btn"
@@ -162,6 +224,7 @@ const RegistrationForm = ({ email, eventName, eventId, strength }) => {
               </>
             )}
           </Form.List>
+
           <Form.Item>
             <center>
               <Button type="primary" className="reg-btn" htmlType="submit">

@@ -1,20 +1,28 @@
 import React, { useEffect } from "react";
 import "./About.css";
 import logo from "./first look logo.png";
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+import AOS from "aos";
+import { InstagramOutlined } from "@ant-design/icons";
+import "aos/dist/aos.css";
 
 export default function About() {
-  useEffect(()=>{
+  useEffect(() => {
     AOS.init();
-  })
+  });
   return (
-    <div className="about" id="about" data-aos='zoom-out'>
+    <div className="about" id="about" data-aos="zoom-out">
       <center>
         <br />
-        <div className="d-sm-flex align-items-center justify-content-between"  >
-          <img src={logo} className="image-fluid w-50" data-aos='zoom-in' data-aos-delay='1000' data-aos-duration='1500' alt="" />
-          <p data-aos='fade-left' data-aos-duration='2000'>
+        <div className="d-sm-flex align-items-center justify-content-between">
+          <img
+            src={logo}
+            className="image-fluid w-50"
+            data-aos="zoom-in"
+            data-aos-delay="1000"
+            data-aos-duration="1500"
+            alt=""
+          />
+          <p data-aos="fade-left" data-aos-duration="2000">
             <h2 className="text-light about_head h2">
               About <span className="text-warning m-2">Us</span>
             </h2>
