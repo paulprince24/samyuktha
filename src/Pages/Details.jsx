@@ -110,36 +110,47 @@ export default function Details() {
 
   useEffect(() => {
     const userId = localStorage.getItem("uid");
-    const fetchData = async () => {
-      let config = {
-        headers: {
-          jwt: localStorage.getItem("zftoken"),
-        },
-      };
-      try {
-        axios
-          .get(
-            `https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/user/check?userid=${userId}`,
-            config
-          )
-          .then((response) => {
-            const responseData = response.data;
-            const isEventIdPresent =
-              responseData.singleEvents.some((event) => event.eventid === id) ||
-              responseData.groupEvents.some((event) => event.eventid === id);
+    if (userId) {
+      const fetchData = async () => {
+        let config = {
+          headers: {
+            jwt: localStorage.getItem("zftoken"),
+          },
+        };
+        try {
+          axios
+            .get(
+              `https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/user/check?userid=${userId}`,
+              config
+            )
+            .then((response) => {
+              const responseData = response.data;
 
-            if (isEventIdPresent) {
-              setExist(true);
-            } else {
-              setExist(false);
-            }
-            setBtnLoad(true);
-          });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
+              const isEventIdPresent =
+                responseData.singleEvents.some(
+                  (event) => event.eventid === id
+                ) ||
+                responseData.groupEvents.some((event) => event.eventid === id);
+
+              if (isEventIdPresent) {
+                setExist(true);
+              } else {
+                setExist(false);
+              }
+              setBtnLoad(true);
+            })
+            .catch((error) => {
+              if (error.response.status === 400) {
+                setExist(false);
+                setBtnLoad(true);
+              }
+            });
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchData();
+    }
   }, [signedIn, registrationStatus]);
 
   return (
