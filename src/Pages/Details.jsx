@@ -18,6 +18,7 @@ import RegistrationForm from "../Components/Modal/RegistrationModel/Registration
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
+
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin, List } from "antd";
 
@@ -26,16 +27,25 @@ export default function Details() {
   const { id } = useParams();
 
   const isSmallScreen = useMediaQuery("(max-width: 784px)");
-  const [isRegistered, setIsRegistered] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
+  const [btnload, setBtnLoad] = useState(false);
+
+  const [exist, setExist] = useState(false);
+  const [registrationStatus, setRegistrationStatus] = useState(null);
 
   // const { db } = useFirebase();
   const [events, setEvents] = useState([]);
 
-  const [user, setUser] = useState("");
+  const handleRegistrationComplete = (status) => {
+    setBtnLoad(false);
+
+    setRegistrationStatus(status);
+  };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     AOS.init();
     const fetchEvents = async () => {
       try {
@@ -64,7 +74,7 @@ export default function Details() {
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
 
-            console.log("j_key", credential.idToken);
+            // console.log("j_key", credential.idToken);
             // const token = credential.accessToken;
 
             // localStorage.setItem("rftoken", token);
@@ -97,37 +107,40 @@ export default function Details() {
         const errorMessage = error.message;
       });
   };
-  const jwtToken = localStorage.getItem("zftoken");
-  const userId = localStorage.getItem("uid");
-
-  const config = {
-    headers: {
-      jwt: jwtToken,
-      "Content-Type": "application/json",
-
-      // Set the content type if needed
-    },
-  };
 
   useEffect(() => {
-    const fetchRegisteredEvents = async () => {
-      if (signedIn) {
-        console.log("test");
-        await axios
+    const userId = localStorage.getItem("uid");
+    const fetchData = async () => {
+      let config = {
+        headers: {
+          jwt: localStorage.getItem("zftoken"),
+        },
+      };
+      try {
+        axios
           .get(
-            "https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/user/check",
+            `https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/user/check?userid=${userId}`,
             config
           )
           .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.error(error);
+            const responseData = response.data;
+            const isEventIdPresent =
+              responseData.singleEvents.some((event) => event.eventid === id) ||
+              responseData.groupEvents.some((event) => event.eventid === id);
+
+            if (isEventIdPresent) {
+              setExist(true);
+            } else {
+              setExist(false);
+            }
+            setBtnLoad(true);
           });
+      } catch (error) {
+        console.error(error);
       }
     };
-    fetchRegisteredEvents();
-  }, [signedIn]);
+    fetchData();
+  }, [signedIn, registrationStatus]);
 
   return (
     <div>
@@ -174,35 +187,39 @@ export default function Details() {
                     >
                       REGISTER
                     </button>
-                  ) : isRegistered ? (
-                    <>
-                      <p
-                        className="registered text-warning"
-                        style={{
-                          fontFamily: "Creepster",
-                          letterSpacing: "1px",
-                        }}
-                      >
-                        You have successfully registered for the event
+                  ) : !exist ? (
+                    btnload ? (
+                      <RegistrationForm
+                        email={localStorage.getItem("userEmail")}
+                        eventName={name}
+                        eventId={id}
+                        strength={event.teamstrength}
+                        onRegistrationComplete={handleRegistrationComplete}
+                      />
+                    ) : (
+                      <p className="text-warning">
+                        <Spin
+                          indicator={
+                            <LoadingOutlined
+                              style={{
+                                fontSize: 18,
+                                color: "orange",
+                                margin: "0 10px 0 0",
+                              }}
+                              spin
+                            />
+                          }
+                        />
+                        Checking your registration status, please wait...
                       </p>
-                      <p
-                        className="text-warning"
-                        style={{
-                          fontFamily: "Creepster",
-                          letterSpacing: "1px",
-                        }}
-                      >
-                        {" "}
-                        Get ready for the spooky day
-                      </p>
-                    </>
+                    )
                   ) : (
-                    <RegistrationForm
-                      email={localStorage.getItem("userEmail")}
-                      eventName={name}
-                      eventId={id}
-                      strength={event.teamstrength}
-                    />
+                    <p
+                      className="text-warning"
+                      style={{ fontFamily: "creepster", letterSpacing: "1px" }}
+                    >
+                      You have successfuly registered for this event
+                    </p>
                   )}
 
                   <span> </span>
@@ -228,11 +245,6 @@ export default function Details() {
                     <List.Item style={{ color: "white" }}>- {item}</List.Item>
                   )}
                 />
-                {/* <ul>
-                  {events.rules?.map((el, index) => {
-                    return <li key={index}>- {el.rules}</li>;
-                  })}
-                </ul> */}
               </div>
               <div>
                 <div

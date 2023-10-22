@@ -22,7 +22,11 @@ export default function About() {
             data-aos-duration="1500"
             alt=""
           />
-          <p data-aos="fade-left" data-aos-duration="2000">
+          <p
+            data-aos="fade-left"
+            data-aos-duration="2000"
+            className="text-about"
+          >
             <h2 className="text-light about_head h2">
               About <span className="text-warning m-2">Us</span>
             </h2>

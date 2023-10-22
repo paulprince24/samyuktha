@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Form, Input, Space, InputNumber } from "antd";
+import { Button, Modal, Form, Input, Space } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import "./RegistrationForm.css";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
 import axios from "axios";
 
-const RegistrationForm = ({ email, eventName, eventId, strength }) => {
+const RegistrationForm = ({
+  email,
+  eventName,
+  eventId,
+  strength,
+  onRegistrationComplete,
+}) => {
   const userId = localStorage.getItem("uid");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addedFields, setAddedFields] = useState(1);
   const [regData, setRegData] = useState({ userid: userId, eventid: eventId });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {}, [regData]); // Add regData as a dependency
 
@@ -34,6 +43,7 @@ const RegistrationForm = ({ email, eventName, eventId, strength }) => {
   };
 
   const onFinish = async (values) => {
+    setLoading(true);
     let updatedRegData = {};
     if (strength > 1) {
       updatedRegData = {
@@ -60,7 +70,8 @@ const RegistrationForm = ({ email, eventName, eventId, strength }) => {
         )
         .then((response) => {
           if (response.status === 200) {
-            console.log("successfull");
+            onRegistrationComplete(true);
+            setIsModalOpen(false);
           }
         })
         .catch((error) => {
@@ -86,7 +97,8 @@ const RegistrationForm = ({ email, eventName, eventId, strength }) => {
         )
         .then((response) => {
           if (response.status === 200) {
-            console.log("successfull");
+            onRegistrationComplete("Registration Successful");
+            setIsModalOpen(false);
           }
         })
         .catch((error) => {
@@ -228,7 +240,29 @@ const RegistrationForm = ({ email, eventName, eventId, strength }) => {
           <Form.Item>
             <center>
               <Button type="primary" className="reg-btn" htmlType="submit">
-                Register
+                {!loading ? (
+                  "Register"
+                ) : (
+                  <>
+                    <div className="d-flex align-items-center">
+                      <Spin
+                        indicator={
+                          <LoadingOutlined
+                            style={{
+                              fontSize: 18,
+                              color: "white",
+                              position: "relative",
+                              top: "-7px",
+                              margin: "0 7px 0 0",
+                            }}
+                            spin
+                          />
+                        }
+                      />
+                      <p>Registering..</p>
+                    </div>
+                  </>
+                )}
               </Button>
             </center>
           </Form.Item>

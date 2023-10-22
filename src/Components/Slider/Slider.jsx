@@ -19,7 +19,7 @@ const Slider = () => {
     {
       backgroundImage:
         "url(https://cdn.discordapp.com/attachments/1164078126838595616/1164078338181185627/treasure_hunt_1.jpg?ex=6541e76f&is=652f726f&hm=7c83bd45eae7ba52f104d6daf0a8687d8f42441365b869330d3a0362b28fee39&)",
-      title: "Tresure Hunt",
+      title: "Treasure Hunt",
       description:
         "Prepare to put your problem-solving skills to the test as you follow cryptic clues, solve riddles, and uncover hidden treasures",
     },

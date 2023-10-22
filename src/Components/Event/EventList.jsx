@@ -23,6 +23,7 @@ const CardList = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     AOS.init();
     const fetchEvents = async () => {
       try {
