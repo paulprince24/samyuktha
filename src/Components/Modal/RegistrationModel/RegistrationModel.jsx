@@ -56,7 +56,7 @@ const RegistrationForm = ({
         participant2name: values.members?.[0]?.participant1name || "",
         participant2phone: values.members?.[0]?.participant1phone || "",
         participant3name: values.members?.[1]?.participant2name || "",
-        participant3phone: values.members?.[1].participant2phone || "",
+        participant3phone: values.members?.[1]?.participant2phone || "",
         participant4name: values.members?.[2]?.participant3name || "",
         participant4phone: values.members?.[2]?.participant3phone || "",
         participant5name: values.members?.[3]?.participant4name || "",
@@ -239,7 +239,7 @@ const RegistrationForm = ({
 
           <Form.Item>
             <center>
-              <Button type="primary" className="reg-btn" htmlType="submit">
+              <Button className="reg-btn" htmlType="submit">
                 {!loading ? (
                   "Register"
                 ) : (

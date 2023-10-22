@@ -39,12 +39,6 @@
 }
 
 .linkitem:hover {
-  background-color: orange;
-  padding: 10px;
-  text-align: center;
-  color: red;
-  width: 150px;
-  border-radius: 30px;
 }
 
 .linkitem:active,
