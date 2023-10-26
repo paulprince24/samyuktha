@@ -110,41 +110,51 @@ export default function Details() {
 
   useEffect(() => {
     const userId = localStorage.getItem("uid");
+    const zftoken = localStorage.getItem("zftoken");
+    console.log(zftoken);
     if (userId) {
       const fetchData = async () => {
         let config = {
           headers: {
-            jwt: localStorage.getItem("zftoken"),
+            jwt: zftoken,
           },
         };
         try {
-          axios
-            .get(
-              `https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/user/check?userid=${userId}`,
-              config
-            )
-            .then((response) => {
-              const responseData = response.data;
+          const res = await fetch(
+            `https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/user/check?userid=${userId}`,
+            {
+              headers: {
+                jwt: zftoken,
+              },
+            }
+          );
+          const responseData = await res.json();
+          console.log(responseData);
+          // axios
+          //   .get(
+          //     `https://main--prismatic-licorice-09766e.netlify.app/v1/api/events/user/check?userid=${userId}`,
+          //     config
+          //   )
+          //   .then((response) => {
+          //     const responseData = response.data;
 
-              const isEventIdPresent =
-                responseData.singleEvents.some(
-                  (event) => event.eventid === id
-                ) ||
-                responseData.groupEvents.some((event) => event.eventid === id);
+          const isEventIdPresent =
+            responseData.singleEvents.some((event) => event.eventid === id) ||
+            responseData.groupEvents.some((event) => event.eventid === id);
 
-              if (isEventIdPresent) {
-                setExist(true);
-              } else {
-                setExist(false);
-              }
-              setBtnLoad(true);
-            })
-            .catch((error) => {
-              if (error.response.status === 400) {
-                setExist(false);
-                setBtnLoad(true);
-              }
-            });
+          if (isEventIdPresent) {
+            setExist(true);
+          } else {
+            setExist(false);
+          }
+          setBtnLoad(true);
+          // })
+          // .catch((error) => {
+          //   if (error.response.status === 400) {
+          //     setExist(false);
+          //     setBtnLoad(true);
+          //   }
+          // });
         } catch (error) {
           console.error(error);
         }

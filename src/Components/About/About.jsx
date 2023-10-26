@@ -33,7 +33,7 @@ export default function About() {
             <br />
             SAINTGITS College of Engineering organizes ‘Samyuktha 7.0’, a
             national level techno cultural fest, on October 27th. ‘Samyuktha’
-            has been successfully organized for the past five years and serves
+            has been successfully organized for the past six years and serves
             as an ideal platform for talented undergraduate and postgraduate
             computer application students to showcase their technical and
             artistic skills. In this fest, students will compete for more than
