@@ -1,0 +1,19 @@
+.rule-box {
+  color: white;
+}
+
+.rule-ctn {
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  gap: 10px;
+}
+
+.pumpkin-rule {
+  width: auto !important;
+  height: 60px !important;
+}

@@ -6,6 +6,7 @@ import Slider from "../Components/Slider/Slider";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import MobileNav from "../Components/Mobilenav/MobileNav";
 import Footer from "../Components/Footer/Footer";
+import CommonRule from "../Components/CommonRule/CommonRule";
 const MainPage = () => {
   const isSmallScreen = useMediaQuery("(max-width: 784px)");
   const [drawer, setDrawer] = useState(false);
@@ -29,6 +30,7 @@ const MainPage = () => {
         <About />
       </section>
       <Slider />
+      <CommonRule />
       <Footer />
     </div>
   );
