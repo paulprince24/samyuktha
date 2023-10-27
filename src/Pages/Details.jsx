@@ -210,13 +210,7 @@ export default function Details() {
                     </button>
                   ) : !exist ? (
                     btnload ? (
-                      <RegistrationForm
-                        email={localStorage.getItem("userEmail")}
-                        eventName={name}
-                        eventId={id}
-                        strength={event.teamstrength}
-                        onRegistrationComplete={handleRegistrationComplete}
-                      />
+                     <p className="text-warning">Online Registration closed. Spot Registration is available</p>
                     ) : (
                       <p className="text-warning">
                         <Spin
